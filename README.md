@@ -1,216 +1,98 @@
-# TicoAutos API
+<p align="center">
+  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
+</p>
 
-Backend REST API para la plataforma TicoAutos — publicación y consulta de automóviles en venta.
+[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
+[circleci-url]: https://circleci.com/gh/nestjs/nest
 
-**Stack:** NestJS · MongoDB · Mongoose · JWT · Passport
+  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
+    <p align="center">
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
+<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
+<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
+<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
+<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
+  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
+    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
+  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
+</p>
+  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
+  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
----
+## Description
 
-## Requisitos
+[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-- Node.js >= 18
-- MongoDB (local o Atlas)
-- npm
-
----
-
-## Instalación
+## Project setup
 
 ```bash
-# 1. Clonar el repositorio
-git clone <repo-url>
-cd ticonautos-api
-
-# 2. Instalar dependencias
-npm install
-
-# 3. Configurar variables de entorno
-cp .env.example .env
-# Editar .env con tus valores
-
-# 4. Iniciar en modo desarrollo
-npm run start:dev
+$ npm install
 ```
 
-El servidor corre en `http://localhost:3001/api`
+## Compile and run the project
 
----
+```bash
+# development
+$ npm run start
 
-## Variables de entorno
+# watch mode
+$ npm run start:dev
 
-```env
-MONGODB_URI=mongodb://localhost:27017/ticonautos
-JWT_SECRET=your_super_secret_key
-JWT_EXPIRES_IN=7d
-PORT=3001
-FRONTEND_URL=http://localhost:3000
+# production mode
+$ npm run start:prod
 ```
 
----
+## Run tests
 
-## Endpoints
+```bash
+# unit tests
+$ npm run test
 
-### Auth (Público)
+# e2e tests
+$ npm run test:e2e
 
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| `POST` | `/api/auth/register` | Registro de usuario |
-| `POST` | `/api/auth/login` | Login, retorna JWT |
-
-**Register body:**
-```json
-{
-  "name": "Juan Pérez",
-  "email": "juan@email.com",
-  "password": "123456",
-  "phone": "88888888"
-}
+# test coverage
+$ npm run test:cov
 ```
 
-**Login body:**
-```json
-{
-  "email": "juan@email.com",
-  "password": "123456"
-}
+## Deployment
+
+When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+
+If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+
+```bash
+$ npm install -g @nestjs/mau
+$ mau deploy
 ```
 
----
+With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
 
-### Vehículos (Público)
+## Resources
 
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| `GET` | `/api/vehicles` | Listar con filtros y paginación |
-| `GET` | `/api/vehicles/:id` | Ver detalle de vehículo |
+Check out a few resources that may come in handy when working with NestJS:
 
-**Filtros disponibles (query params):**
-```
-GET /api/vehicles?brand=Toyota&model=Corolla&minYear=2015&maxYear=2022&minPrice=5000&maxPrice=15000&status=available&search=automatico&page=1&limit=10
-```
+- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
+- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
+- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
+- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
+- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
+- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
+- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
+- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
 
-| Parámetro | Tipo | Descripción |
-|-----------|------|-------------|
-| `brand` | string | Marca (parcial, case-insensitive) |
-| `model` | string | Modelo (parcial, case-insensitive) |
-| `minYear` | number | Año mínimo |
-| `maxYear` | number | Año máximo |
-| `minPrice` | number | Precio mínimo |
-| `maxPrice` | number | Precio máximo |
-| `status` | `available` \| `sold` | Estado del vehículo |
-| `search` | string | Búsqueda de texto libre |
-| `page` | number | Página actual (default: 1) |
-| `limit` | number | Resultados por página (default: 10, max: 50) |
+## Support
 
-**Respuesta paginada:**
-```json
-{
-  "data": [...],
-  "meta": {
-    "total": 45,
-    "page": 1,
-    "limit": 10,
-    "totalPages": 5,
-    "hasNextPage": true,
-    "hasPrevPage": false
-  }
-}
-```
+Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
----
+## Stay in touch
 
-### Vehículos (Autenticado — requiere `Authorization: Bearer <token>`)
+- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
+- Website - [https://nestjs.com](https://nestjs.com/)
+- Twitter - [@nestframework](https://twitter.com/nestframework)
 
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| `GET` | `/api/vehicles/my` | Mis vehículos publicados |
-| `POST` | `/api/vehicles` | Crear publicación |
-| `PUT` | `/api/vehicles/:id` | Editar vehículo (solo dueño) |
-| `PATCH` | `/api/vehicles/:id/sold` | Marcar como vendido (solo dueño) |
-| `DELETE` | `/api/vehicles/:id` | Eliminar vehículo (solo dueño) |
+## License
 
-**Create/Update body:**
-```json
-{
-  "brand": "Toyota",
-  "model": "Corolla",
-  "year": 2020,
-  "price": 12000,
-  "description": "Excelente estado, único dueño...",
-  "mileage": 45000,
-  "color": "Blanco",
-  "transmission": "Automático",
-  "fuel": "Gasolina",
-  "images": ["https://url-imagen.com/foto1.jpg"]
-}
-```
-
----
-
-### Preguntas
-
-| Método | Ruta | Auth | Descripción |
-|--------|------|------|-------------|
-| `GET` | `/api/vehicles/:id/questions` | No | Ver preguntas de un vehículo |
-| `POST` | `/api/vehicles/:id/questions` | Sí | Hacer una pregunta |
-| `GET` | `/api/questions/my` | Sí | Mis preguntas realizadas |
-| `GET` | `/api/questions/inbox` | Sí | Preguntas recibidas en mis vehículos |
-
-**Reglas:**
-- Solo usuarios autenticados pueden preguntar
-- Las preguntas no se pueden modificar una vez enviadas
-- Se registra fecha de pregunta y usuario que pregunta
-
----
-
-### Respuestas
-
-| Método | Ruta | Auth | Descripción |
-|--------|------|------|-------------|
-| `GET` | `/api/questions/:id/answer` | No | Ver respuesta de una pregunta |
-| `POST` | `/api/questions/:id/answer` | Sí | Responder (solo dueño del vehículo) |
-
-**Reglas:**
-- Solo el dueño del vehículo puede responder
-- Cada pregunta tiene máximo una respuesta
-- Se registra fecha de respuesta y usuario que responde
-
----
-
-## Arquitectura REST
-
-El API sigue las restricciones REST:
-
-- **Interfaz uniforme:** Recursos identificados por URIs, uso correcto de métodos HTTP (GET, POST, PUT, PATCH, DELETE) y códigos de estado.
-- **Sin estado (Stateless):** Cada request contiene toda la información necesaria. La autenticación se maneja con JWT en el header.
-- **Capas:** El cliente no sabe qué hay detrás del servidor.
-- **Filtrado en backend:** Todo el filtrado y paginación ocurre en el servidor, nunca en el cliente.
-
----
-
-## Modelo de entidades
-
-```
-User
- ├── _id, name, email, password, phone
- └── timestamps (createdAt, updatedAt)
-
-Vehicle
- ├── _id, brand, model, year, price, description
- ├── status (available | sold), mileage, color
- ├── transmission, fuel, images[]
- ├── owner → User
- └── timestamps
-
-Question
- ├── _id, content
- ├── vehicle → Vehicle
- ├── askedBy → User
- └── timestamps (createdAt = fecha de pregunta)
-
-Answer
- ├── _id, content
- ├── question → Question (unique)
- ├── answeredBy → User
- └── timestamps (createdAt = fecha de respuesta)
-```
+Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
