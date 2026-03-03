@@ -1,9 +1,9 @@
 import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
-import { AnswersService } from '../../../ticonautos-api/src/answers/answers.service';
-import { CreateAnswerDto } from '../../../ticonautos-api/src/answers/dto/create-answer.dto';
-import { JwtAuthGuard } from '../../../ticonautos-api/src/common/guards/jwt-auth.guard';
-import { CurrentUser } from '../../../ticonautos-api/src/common/decorators/current-user.decorator';
-import { UserDocument } from '../../../ticonautos-api/src/users/user.schema';
+import { AnswersService } from './answers.service';
+import { CreateAnswerDto } from './dto/create-answer.dto';
+import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
+import { CurrentUser } from '../common/decorators/current-user.decorator';
+import type { UserDocument } from '../users/user.schema';
 
 @Controller('questions')
 export class AnswersController {

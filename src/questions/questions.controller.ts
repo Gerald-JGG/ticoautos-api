@@ -10,7 +10,7 @@ import { QuestionsService } from './questions.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
-import { UserDocument } from '../users/user.schema';
+import type { UserDocument } from '../users/user.schema';
 
 @Controller()
 export class QuestionsController {

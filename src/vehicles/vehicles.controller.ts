@@ -16,7 +16,7 @@ import { VehiclesService } from './vehicles.service';
 import { CreateVehicleDto, UpdateVehicleDto, VehicleFilterDto } from './dto/vehicle.dto';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
-import { UserDocument } from '../users/user.schema';
+import type { UserDocument } from '../users/user.schema'; // agregar "type"
 
 @Controller('vehicles')
 export class VehiclesController {

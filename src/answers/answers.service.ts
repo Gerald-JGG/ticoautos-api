@@ -2,8 +2,8 @@ import { Injectable, ConflictException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Answer, AnswerDocument } from './answer.schema';
-import { CreateAnswerDto } from '../../../ticonautos-api/src/answers/dto/create-answer.dto';
-import { QuestionsService } from '../../../ticonautos-api/src/questions/questions.service';
+import { CreateAnswerDto } from './dto/create-answer.dto';
+import { QuestionsService } from '../questions/questions.service';
 
 @Injectable()
 export class AnswersService {

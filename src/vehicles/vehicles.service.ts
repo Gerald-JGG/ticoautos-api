@@ -6,7 +6,11 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Vehicle, VehicleDocument, VehicleStatus } from './vehicle.schema';
-import { CreateVehicleDto, UpdateVehicleDto, VehicleFilterDto } from './dto/vehicle.dto';
+import {
+  CreateVehicleDto,
+  UpdateVehicleDto,
+  VehicleFilterDto,
+} from './dto/vehicle.dto';
 
 @Injectable()
 export class VehiclesService {
@@ -17,7 +21,10 @@ export class VehiclesService {
   /**
    * Create a new vehicle listing
    */
-  async create(createVehicleDto: CreateVehicleDto, ownerId: string): Promise<VehicleDocument> {
+  async create(
+    createVehicleDto: CreateVehicleDto,
+    ownerId: string,
+  ): Promise<VehicleDocument> {
     const vehicle = new this.vehicleModel({
       ...createVehicleDto,
       owner: new Types.ObjectId(ownerId),
@@ -97,7 +104,8 @@ export class VehiclesService {
    * Get a single vehicle by ID (public)
    */
   async findOne(id: string): Promise<VehicleDocument> {
-    if (!Types.ObjectId.isValid(id)) throw new NotFoundException('Vehicle not found');
+    if (!Types.ObjectId.isValid(id))
+      throw new NotFoundException('Vehicle not found');
 
     const vehicle = await this.vehicleModel
       .findById(id)
@@ -118,21 +126,24 @@ export class VehiclesService {
     const vehicle = await this.findOne(id);
     this.checkOwnership(vehicle, userId);
 
-    return this.vehicleModel
+    const updated = await this.vehicleModel
       .findByIdAndUpdate(id, updateVehicleDto, { new: true })
       .populate('owner', 'name email phone');
+
+    if (!updated) throw new NotFoundException('Vehicle not found');
+    return updated;
   }
 
-  /**
-   * Mark vehicle as sold (only owner)
-   */
   async markAsSold(id: string, userId: string): Promise<VehicleDocument> {
     const vehicle = await this.findOne(id);
     this.checkOwnership(vehicle, userId);
 
-    return this.vehicleModel
+    const updated = await this.vehicleModel
       .findByIdAndUpdate(id, { status: VehicleStatus.SOLD }, { new: true })
       .populate('owner', 'name email phone');
+
+    if (!updated) throw new NotFoundException('Vehicle not found');
+    return updated;
   }
 
   /**
