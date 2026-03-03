@@ -1,8 +1,11 @@
-import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
-import { ConfigModule } from '@nestjs/config';
-import { UsersModule } from './users/users.module';
-import { AuthModule } from './auth/auth.module';
+import { Module } from "@nestjs/common";
+import { MongooseModule } from "@nestjs/mongoose";
+import { ConfigModule } from "@nestjs/config";
+import { AuthModule } from "./auth/auth.module";
+import { UsersModule } from "./users/users.module";
+import { VehiclesModule } from "./vehicles/vehicles.module";
+import { QuestionsModule } from "./questions/questions.module";
+import { AnswersModule } from "../../ticoautos-api/src/answers/answers.module";
 
 @Module({
   imports: [
@@ -10,6 +13,9 @@ import { AuthModule } from './auth/auth.module';
     MongooseModule.forRoot(process.env.MONGODB_URI || 'mongodb://localhost:27017/ticonautos'),
     UsersModule,
     AuthModule,
+    VehiclesModule,
+    QuestionsModule,
+    AnswersModule
   ],
 })
 export class AppModule {}
