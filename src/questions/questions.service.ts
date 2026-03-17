@@ -113,11 +113,58 @@ export class QuestionsService {
     ]);
   }
 
-  async findMyQuestions(userId: string): Promise<QuestionDocument[]> {
-    return this.questionModel
-      .find({ askedBy: new Types.ObjectId(userId) })
-      .populate('vehicle', 'brand model year')
-      .sort({ createdAt: -1 });
+  async findMyQuestions(userId: string): Promise<any[]> {
+    return this.questionModel.aggregate([
+      { $match: { askedBy: new Types.ObjectId(userId) } },
+      {
+        $lookup: {
+          from: 'answers',
+          localField: '_id',
+          foreignField: 'question',
+          as: 'answerArr',
+        },
+      },
+      {
+        $addFields: {
+          answer: { $arrayElemAt: ['$answerArr', 0] },
+        },
+      },
+      {
+        $lookup: {
+          from: 'vehicles',
+          localField: 'vehicle',
+          foreignField: '_id',
+          as: 'vehicleArr',
+        },
+      },
+      {
+        $addFields: {
+          vehicle: { $arrayElemAt: ['$vehicleArr', 0] },
+        },
+      },
+      {
+        $project: {
+          content: 1,
+          createdAt: 1,
+          'vehicle._id': 1,
+          'vehicle.brand': 1,
+          'vehicle.model': 1,
+          'vehicle.year': 1,
+          answer: {
+            $cond: {
+              if: { $gt: [{ $size: '$answerArr' }, 0] },
+              then: {
+                _id: '$answer._id',
+                content: '$answer.content',
+                createdAt: '$answer.createdAt',
+              },
+              else: '$$REMOVE',
+            },
+          },
+        },
+      },
+      { $sort: { createdAt: -1 } },
+    ]);
   }
 
   async findQuestionsForMyVehicles(userId: string): Promise<any[]> {
