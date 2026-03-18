@@ -1,98 +1,196 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🚗 TicoAutos — Backend API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+> REST API for the TicoAutos vehicle marketplace platform, built with NestJS, MongoDB and JWT authentication.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## 📋 Table of Contents
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- [About](#about)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Getting Started](#getting-started)
+- [Environment Variables](#environment-variables)
+- [API Endpoints](#api-endpoints)
+- [Authentication](#authentication)
+- [Data Models](#data-models)
 
-## Project setup
+---
 
-```bash
-$ npm install
+## About
+
+TicoAutos is a Costa Rican vehicle marketplace REST API that allows users to publish, search and inquire about vehicles for sale. It follows a Service-Oriented Architecture with REST as the architectural style.
+
+---
+
+## Tech Stack
+
+| Technology | Purpose |
+|---|---|
+| **NestJS** | Backend framework |
+| **MongoDB + Mongoose** | Database & ODM |
+| **JWT + Passport** | Authentication |
+| **bcryptjs** | Password hashing |
+| **class-validator** | DTO validation |
+
+---
+
+## Project Structure
+
+```
+src/
+├── auth/               # JWT authentication (login, register, strategy)
+├── users/              # User schema, service, DTOs
+├── vehicles/           # Vehicle CRUD, filters, pagination
+├── questions/          # Q&A system — questions per vehicle
+├── answers/            # Answers to questions (owner only)
+├── common/
+│   ├── guards/         # JwtAuthGuard
+│   └── decorators/     # @CurrentUser() decorator
+├── app.module.ts       # Root module
+└── main.ts             # Bootstrap, global pipes, CORS
 ```
 
-## Compile and run the project
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- MongoDB running locally on port `27017`
+
+### Installation
 
 ```bash
-# development
-$ npm run start
+# Clone the repository
+git clone <your-repo-url>
+cd ticonautos-api
 
-# watch mode
-$ npm run start:dev
+# Install dependencies
+npm install
 
-# production mode
-$ npm run start:prod
+# Create environment file
+cp .env.example .env
+# Edit .env with your values (see below)
+
+# Run in development mode
+npm run start:dev
 ```
 
-## Run tests
+The API will be available at: `http://localhost:3001/api`
 
-```bash
-# unit tests
-$ npm run test
+---
 
-# e2e tests
-$ npm run test:e2e
+## Environment Variables
 
-# test coverage
-$ npm run test:cov
+Create a `.env` file in the root of the project:
+
+```env
+PORT=3001
+MONGODB_URI=mongodb://localhost:27017/ticonautos
+JWT_SECRET=your_super_secret_key_here
+FRONTEND_URL=http://localhost:3000
 ```
 
-## Deployment
+---
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+## API Endpoints
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### 🔓 Public (no authentication required)
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/api/auth/register` | Register a new user |
+| `POST` | `/api/auth/login` | Login and receive JWT token |
+| `GET` | `/api/vehicles` | List vehicles with filters & pagination |
+| `GET` | `/api/vehicles/:id` | Get vehicle detail |
+| `GET` | `/api/vehicles/:vehicleId/questions` | Get all questions for a vehicle (with answers) |
+| `GET` | `/api/questions/:questionId/answer` | Get answer for a specific question |
+
+### 🔒 Private (JWT required)
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/vehicles/my` | Get authenticated user's vehicles |
+| `POST` | `/api/vehicles` | Create a new vehicle listing |
+| `PUT` | `/api/vehicles/:id` | Update vehicle (owner only) |
+| `PATCH` | `/api/vehicles/:id/sold` | Mark vehicle as sold (owner only) |
+| `DELETE` | `/api/vehicles/:id` | Delete vehicle (owner only) |
+| `POST` | `/api/vehicles/:vehicleId/questions` | Ask a question about a vehicle |
+| `GET` | `/api/questions/my` | Get questions asked by the current user |
+| `GET` | `/api/questions/inbox` | Get all questions for user's vehicles |
+| `POST` | `/api/questions/:questionId/answer` | Answer a question (owner only) |
+
+### Vehicle Filters (Query Params)
+
+```
+GET /api/vehicles?brand=Toyota&minPrice=5000&maxPrice=15000&minYear=2015&maxYear=2023&status=available&page=1&limit=10
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+| Param | Type | Description |
+|---|---|---|
+| `brand` | string | Filter by brand (partial match) |
+| `model` | string | Filter by model (partial match) |
+| `minYear` / `maxYear` | number | Year range |
+| `minPrice` / `maxPrice` | number | Price range in USD |
+| `status` | `available` \| `sold` | Vehicle status |
+| `search` | string | Full-text search (brand, model, description) |
+| `page` | number | Page number (default: 1) |
+| `limit` | number | Results per page (default: 10, max: 50) |
 
-## Resources
+---
 
-Check out a few resources that may come in handy when working with NestJS:
+## Authentication
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+The API uses **JWT Bearer tokens**. After login or register, include the token in all protected requests:
 
-## Support
+```
+Authorization: Bearer <your_token>
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Tokens expire after **7 days**.
 
-## Stay in touch
+---
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Data Models
 
-## License
+### User
+```
+name, email (unique), password (hashed), phone (optional)
+```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### Vehicle
+```
+brand, model, year, price, description, status (available/sold),
+mileage, color, transmission, fuel, images[], owner → User
+```
+
+### Question
+```
+content, vehicle → Vehicle, askedBy → User, createdAt
+```
+
+### Answer
+```
+content, question → Question (unique), answeredBy → User, createdAt
+```
+
+---
+
+## Business Rules
+
+- Only authenticated users can ask questions
+- Only the vehicle owner can answer questions
+- Each question can only have one answer
+- Questions cannot be modified once sent
+- Only the vehicle owner can edit, delete or mark as sold
+- Passwords are never returned in API responses
+
+---
+
+## Course Info
+
+**Course:** Programación en Ambiente Web II (ISW-711)  
+**University:** Universidad Técnica Nacional  
+**Professor:** Bladimir Arroyo
