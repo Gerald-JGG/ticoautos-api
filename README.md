@@ -1,10 +1,10 @@
-# 🚗 TicoAutos — Backend API
+# TicoAutos — Backend API
 
 > REST API for the TicoAutos vehicle marketplace platform, built with NestJS, MongoDB and JWT authentication.
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 
 - [About](#about)
 - [Tech Stack](#tech-stack)
@@ -64,7 +64,7 @@ src/
 
 ```bash
 # Clone the repository
-git clone <your-repo-url>
+git clone https://github.com/Gerald-JGG/ticoautos-api
 cd ticonautos-api
 
 # Install dependencies
